@@ -1,5 +1,6 @@
 /* Add your CSS here */
 
+/* GLOBAL RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,7 +12,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* MAIN - FORCE SCREEN SIZE */
+/* MAIN */
 main {
   padding: 16px;
   max-width: 800px;
@@ -24,7 +25,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   overflow-x: auto;
-  background: 
+  background:
     radial-gradient(1px 1px at 20% 30%, white, rgba(255,255,255,0)),
     radial-gradient(1px 1px at 60% 70%, white, rgba(255,255,255,0)),
     radial-gradient(1px 1px at 50% 50%, white, rgba(255,255,255,0)),
@@ -46,7 +47,7 @@ body {
   padding: 20px;
 }
 
-/* Twinkling animation for stars */
+/* STAR TWINKLE */
 @keyframes starTwinkle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
@@ -57,30 +58,22 @@ header {
   text-align: center;
   color: white;
   margin-bottom: 60px;
+  animation: fadeIn 1.2s ease forwards;
 }
 
 header img {
   max-width: 150px;
   margin-bottom: 20px;
   width: 100%;
+  animation: floatLogo 4s ease-in-out infinite;
 }
 
-header h1 {
-  font-size: 48px;
-  margin-bottom: 15px;
-  position: relative;
-  z-index: 2;
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
-header p {
-  font-size: 18px;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-/* TIMELINE SECTION */
+/* TIMELINE */
 .timeline {
   --line-width: 6px;
   position: relative;
@@ -93,7 +86,7 @@ header p {
   gap: 80px;
 }
 
-/* Central vertical line */
+/* VERTICAL LINE */
 .timeline::before {
   content: '';
   position: absolute;
@@ -107,24 +100,65 @@ header p {
   z-index: 0;
 }
 
-/* Timeline items stack vertically in a single column */
+/* TIMELINE ITEM */
 .timeline-item {
   position: relative;
   width: 100%;
-  padding: 0;
   text-align: center;
   display: flex;
   justify-content: center;
   z-index: 1;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s ease forwards;
 }
 
-.timeline-item.left,
-.timeline-item.right {
-  left: auto;
-  text-align: center;
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Card styles (previously section > div) */
+/* Microchip pins on both sides */
+.timeline .card::before,
+.timeline .card::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  width: 18px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #bfbfbf,
+    #bfbfbf 12px,
+    #8c8c8c 12px,
+    #8c8c8c 20px
+  );
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  opacity: 0.9;
+}
+
+/* Left pins */
+.timeline .card::before {
+  left: -26px;
+}
+
+/* Right pins */
+.timeline .card::after {
+  right: -26px;
+}
+
+/* Hide pins on horizontal layout (optional) */
+@media (min-width: 1024px) {
+  .timeline .card::before,
+  .timeline .card::after {
+    display: block; /* or change to none if you want them hidden */
+  }
+}
+
+/* CARD */
 .timeline .card {
   position: relative;
   width: 280px;
@@ -138,28 +172,30 @@ header p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  z-index: 1;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
 }
 
-/* Hide descriptor text by default */
+/* CARD HOVER EFFECT */
+.timeline .card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(120, 4, 214, 0.6);
+  filter: brightness(1.15);
+}
+
+/* TEXT FADE-IN ON HOVER */
 .timeline .card p {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
-/* Show descriptor text on hover */
 .timeline .card:hover p {
   opacity: 1;
 }
 
-/* Hover effect */
-.timeline .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(120, 4, 214, 0.6);
-}
-
-/* Green dot connector at top of card */
+/* DOT CONNECTOR */
 .timeline-item::before {
   content: '';
   position: absolute;
@@ -172,15 +208,15 @@ header p {
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(0, 200, 83, 0.4);
   border: 2px solid rgba(255, 255, 255, 0.3);
-  z-index: 2;
+  animation: pulseDot 2s infinite ease-in-out;
 }
 
-/* First item has no top dot */
-.timeline-item:first-child::before {
-  display: none;
+@keyframes pulseDot {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.25); }
 }
 
-/* Diagonal connector lines between cards with alternating colors */
+/* CONNECTOR LINES */
 .timeline-item::after {
   content: '';
   position: absolute;
@@ -193,285 +229,110 @@ header p {
   z-index: 1;
 }
 
-/* Hide connector on last item */
-.timeline-item:last-child::after {
-  display: none;
-}
-
-/* Diagonal connectors - green (items 2, 5, 8) */
+/* COLOR VARIANTS */
 .timeline-item:nth-child(3n+2)::after {
   background: #66ff8a;
   box-shadow: 0 0 12px rgba(102, 255, 138, 0.6);
 }
 
-/* Diagonal connectors - blue (items 3, 6, 9) */
 .timeline-item:nth-child(3n+3)::after {
   background: #00d4ff;
   box-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
 }
 
-/* Diagonal connectors - purple (items 4, 7) */
 .timeline-item:nth-child(3n+4)::after {
   background: #8655f7;
   box-shadow: 0 0 12px rgba(33, 13, 219, 0.6);
 }
 
-/* Microchip pins */
-.timeline .card::before {
-  content: '';
-  position: absolute;
-  left: -20px;
-  top: 30%;
-  width: 15px;
-  height: 40px;
-  background-color: #888888;
-  border-radius: 2px;
-  box-shadow: 0 50px 0 #888888, 0 100px 0 #888888, 0 150px 0 #888888;
-}
-
-.timeline .card::after {
-  content: '';
-  position: absolute;
-  right: -20px;
-  top: 30%;
-  width: 15px;
-  height: 40px;
-  background-color: #888888;
-  border-radius: 2px;
-  box-shadow: 0 50px 0 #888888, 0 100px 0 #888888, 0 150px 0 #888888;
-}
-
-/* Card headings */
-.timeline .card h2 {
-  font-size: 32px;
-  margin-bottom: 10px;
-  color: #00d4ff;
-}
-
-.timeline .card h3 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.timeline .card p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-/* Responsive: adapt timeline for smaller screens */
-@media (max-width: 900px) {
-  .timeline {
-    padding: 20px 12px;
-    gap: 70px;
-  }
-  
-  .timeline .card {
-    width: 100%;
-    max-width: 280px;
-    height: auto;
-    padding: 20px;
-  }
-  
-  .timeline-item::before {
-    width: 12px;
-    height: 12px;
-    top: -20px;
-  }
-}
-
-/* Very small screens */
-@media (max-width: 420px) {
-  .timeline {
-    padding: 16px 10px;
-    gap: 24px;
-  }
-  
-  .timeline .card {
-    width: 100%;
-    max-width: 260px;
-    padding: 16px;
-    font-size: 14px;
-  }
-  
-  .timeline .card h2 {
-    font-size: 28px;
-  }
-  
-  .timeline .card h3 {
-    font-size: 16px;
-  }
-}
-
-/* Footer message */
-body > p {
-  text-align: center;
-  color: white;
-  font-size: 16px;
-  margin-top: 40px;
-}
-
-/* Timeline Navigation Buttons - Hidden by default */
-.timeline-nav {
-  display: none;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 40px;
-}
-
-.nav-btn {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  border: 2px solid #66ff8a;
-  background: transparent;
-  color: #66ff8a;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.nav-btn:hover {
-  background: rgba(102, 255, 138, 0.2);
-  box-shadow: 0 0 15px rgba(102, 255, 138, 0.4);
-  transform: translateY(-2px);
-}
-
-.nav-btn:active {
-  transform: translateY(0);
-}
-
-/* Large screens - Horizontal Timeline */
+/* HORIZONTAL TIMELINE (LARGE SCREENS) */
 @media (min-width: 1024px) {
   .timeline {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 40px;
-  padding: 80px 40px 40px;
-  width: 100%;
-  max-width: none;
+    flex-direction: row;
+    gap: 40px;
+    padding: 80px 40px 40px;
+    width: 100%;
+    max-width: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+  }
 
-  /* 🔑 Key scroll behavior */
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex-wrap: nowrap;
-
-  scroll-behavior: smooth;
-  position: relative;
- 
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
   .timeline-item {
+    scroll-snap-align: center;
+    min-height: 500px;
+    width: 240px;
     flex-shrink: 0;
   }
 
-  .timeline-nav {
-    display: flex;
-  }
+  /* Vertical line (mobile/tablet) */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: var(--line-width);
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #66ff8a, #00c853);
+  border-radius: 4px;
+  z-index: 0;
 }
 
-
-  /* Custom scrollbar styling */
-  .timeline::-webkit-scrollbar {
-    height: 12px;
-  }
-
-  .timeline::-webkit-scrollbar-track {
-    background: rgba(102, 255, 138, 0.1);
-    border-radius: 6px;
-  }
-
-  .timeline::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #66ff8a, #00c853);
-    border-radius: 6px;
-    box-shadow: 0 0 12px rgba(102, 255, 138, 0.4);
-  }
-
-  .timeline::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #00d4ff, #66ff8a);
-  }
-
-  /* Horizontal line in the center */
+/* Horizontal line (desktop) */
+@media (min-width: 1024px) {
   .timeline::before {
     content: '';
     position: absolute;
-    width: calc(100% - 80px);
-    height: var(--line-width);
     top: 50%;
-    left: 40px;
-    right: 40px;
+    left: 0;
+    right: 0;
+    height: var(--line-width);
     transform: translateY(-50%);
     background: linear-gradient(90deg, #66ff8a, #00c853);
     z-index: 0;
-    pointer-events: none;
   }
 
-  /* Adjust timeline items for horizontal layout */
-  .timeline-item {
-    width: 240px;
-    padding: 0;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    position: relative;
-    min-height: 500px;
-    flex-shrink: 0;
-  }
+  /* Horizontal line (desktop) */ 
+  @media (min-width: 1024px) 
+  { 
+    .timeline::before  { 
+      content: ''; position: absolute; 
+      top: 50%; 
+      left: 0; 
+      right: 0; 
+      height: var(--line-width); 
+      transform: translateY(-50%); 
+      background: linear-gradient(90deg, #66ff8a, #00c853); 
+      z-index: 0;
+}
 
-  /* Odd items (left) - cards appear above the line */
-  .timeline-item:nth-child(odd) {
-    padding-top: 30px;
-    padding-bottom: 80px;
-  }
 
-  /* Odd items (left) - adjust dot position for horizontal layout */
-  .timeline-item:nth-child(odd)::before {
-    top: auto;
-    bottom: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  /* Even items (right) - cards appear below the line */
-  .timeline-item:nth-child(even) {
-    padding-top: 80px;
-    padding-bottom: 30px;
-  }
-
-  /* Even items (right) - adjust dot position for horizontal layout */
-  .timeline-item:nth-child(even)::before {
-    top: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  /* Remove vertical connector lines */
-  .timeline-item::after {
-    display: none;
-  }
-
-  /* Card styles for horizontal layout */
   .timeline .card {
     width: 220px;
     height: 260px;
-    flex-shrink: 0;
-  }
-
-  /* Hide microchip pins on large screens */
-  .timeline .card::before,
-  .timeline .card::after {
-    display: none;
-  }
-
-  /* Show navigation buttons on large screens */
-  .timeline-nav {
-    display: flex;
-    position: sticky;
-    bottom: 20px;
   }
 }
+
+/* SCROLLBAR */
+.timeline::-webkit-scrollbar {
+  height: 12px;
+}
+
+.timeline::-webkit-scrollbar-track {
+  background: rgba(102, 255, 138, 0.1);
+  border-radius: 6px;
+}
+
+.timeline::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #66ff8a, #00c853);
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(102, 255, 138, 0.4);
+}
+
+.timeline::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00d4ff, #66ff8a);
+}
+
