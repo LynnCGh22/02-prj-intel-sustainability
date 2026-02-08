@@ -98,7 +98,6 @@ header p {
   content: '';
   position: absolute;
   left: 50%;
-  top: 0;
   bottom: 0;
   width: var(--line-width);
   transform: translateX(-50%);
@@ -301,4 +300,167 @@ body > p {
   color: white;
   font-size: 16px;
   margin-top: 40px;
+}
+
+/* Timeline Navigation Buttons - Hidden by default */
+.timeline-nav {
+  display: none;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid #66ff8a;
+  background: transparent;
+  color: #66ff8a;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(102, 255, 138, 0.2);
+  box-shadow: 0 0 15px rgba(102, 255, 138, 0.4);
+  transform: translateY(-2px);
+}
+
+.nav-btn:active {
+  transform: translateY(0);
+}
+
+/* Large screens - Horizontal Timeline */
+@media (min-width: 1024px) {
+  .timeline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  padding: 80px 40px 40px;
+  width: 100%;
+  max-width: none;
+
+  /* 🔑 Key scroll behavior */
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+
+  scroll-behavior: smooth;
+  position: relative;
+ 
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+  .timeline-item {
+    flex-shrink: 0;
+  }
+
+  .timeline-nav {
+    display: flex;
+  }
+}
+
+
+  /* Custom scrollbar styling */
+  .timeline::-webkit-scrollbar {
+    height: 12px;
+  }
+
+  .timeline::-webkit-scrollbar-track {
+    background: rgba(102, 255, 138, 0.1);
+    border-radius: 6px;
+  }
+
+  .timeline::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #66ff8a, #00c853);
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(102, 255, 138, 0.4);
+  }
+
+  .timeline::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00d4ff, #66ff8a);
+  }
+
+  /* Horizontal line in the center */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    width: calc(100% - 80px);
+    height: var(--line-width);
+    top: 50%;
+    left: 40px;
+    right: 40px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, #66ff8a, #00c853);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Adjust timeline items for horizontal layout */
+  .timeline-item {
+    width: 240px;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    min-height: 500px;
+    flex-shrink: 0;
+  }
+
+  /* Odd items (left) - cards appear above the line */
+  .timeline-item:nth-child(odd) {
+    padding-top: 30px;
+    padding-bottom: 80px;
+  }
+
+  /* Odd items (left) - adjust dot position for horizontal layout */
+  .timeline-item:nth-child(odd)::before {
+    top: auto;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Even items (right) - cards appear below the line */
+  .timeline-item:nth-child(even) {
+    padding-top: 80px;
+    padding-bottom: 30px;
+  }
+
+  /* Even items (right) - adjust dot position for horizontal layout */
+  .timeline-item:nth-child(even)::before {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Remove vertical connector lines */
+  .timeline-item::after {
+    display: none;
+  }
+
+  /* Card styles for horizontal layout */
+  .timeline .card {
+    width: 220px;
+    height: 260px;
+    flex-shrink: 0;
+  }
+
+  /* Hide microchip pins on large screens */
+  .timeline .card::before,
+  .timeline .card::after {
+    display: none;
+  }
+
+  /* Show navigation buttons on large screens */
+  .timeline-nav {
+    display: flex;
+    position: sticky;
+    bottom: 20px;
+  }
 }
