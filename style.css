@@ -162,16 +162,17 @@ header img {
 .timeline .card {
   position: relative;
   width: 280px;
-  height: 350px;
+  height: auto;
   background-color: #003d82;
   border-radius: 8px;
   border: 4px solid grey;
-  padding: 30px 20px;
+  padding: 25px 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   color: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  gap: 12px;
   transition:
     transform 0.35s ease,
     box-shadow 0.35s ease,
@@ -185,14 +186,40 @@ header img {
   filter: brightness(1.15);
 }
 
+/* CARD HEADINGS */
+.timeline .card h2 {
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+
+.timeline .card h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
 /* TEXT FADE-IN ON HOVER */
 .timeline .card p {
   opacity: 0;
   transition: opacity 0.4s ease;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .timeline .card:hover p {
   opacity: 1;
+}
+
+/* CARD IMAGE */
+.card-image {
+  max-width: 100%;
+  width: 240px;
+  height: 160px;
+  border-radius: 6px;
+  margin-top: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Continuous vertical line */
@@ -372,5 +399,41 @@ header img {
 
 .timeline::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #00d4ff, #66ff8a);
+}
+
+/* DISCLAIMER FOOTER */
+.disclaimer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  margin-top: 60px;
+  padding: 30px 20px;
+  border-top: 1px solid rgba(102, 255, 138, 0.2);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* SCROLL HINT */
+.scroll-hint {
+  text-align: center;
+  color: white;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.disclaimer p {
+  margin: 10px 0;
+}
+
+.disclaimer p:first-child {
+  margin-top: 0;
+}
+
+.disclaimer p:last-child {
+  margin-bottom: 0;
+  opacity: 0.8;
 }
 
