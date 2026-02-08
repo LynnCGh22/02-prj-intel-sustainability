@@ -202,8 +202,8 @@ header p {
 
 /* Diagonal connectors - purple (items 4, 7) */
 .timeline-item:nth-child(3n+4)::after {
-  background: #a855f7;
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  background: #8655f7;
+  box-shadow: 0 0 12px rgba(33, 13, 219, 0.6);
 }
 
 /* Microchip pins */
