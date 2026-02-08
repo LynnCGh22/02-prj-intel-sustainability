@@ -222,6 +222,16 @@ header img {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* 2006 CARD - Adjust text size for better fit */
+#y2006 .card h3 {
+  font-size: 16px;
+}
+
+#y2006 .card p {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 /* Continuous vertical line */
 .timeline::before {
   content: '';
