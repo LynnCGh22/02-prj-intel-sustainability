@@ -14,8 +14,290 @@ html {
 /* BODY */
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
-  overflow-x: hidden;
+  overflow-x: auto;
   background: linear-gradient(#7804d6, #1629da);
+  padding: 20px;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  color: white;
+  margin-bottom: 60px;
+}
+
+header img {
+  max-width: 150px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+header p {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* TIMELINE SECTION */
+.timeline {
+  --line-width: 8px;
+  --card-half: 140px; /* half of card width (280/2) */
+  --connector-length: 48px;
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Left vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: calc(50% - var(--card-half));
+  top: 0;
+  bottom: 0;
+  width: var(--line-width);
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #66ff8a, #00c853);
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(0, 200, 83, 0.18);
+  z-index: 0;
+}
+
+/* Right vertical line */
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: calc(50% + var(--card-half));
+  top: 0;
+  bottom: 0;
+  width: var(--line-width);
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #66ff8a, #00c853);
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(0, 200, 83, 0.18);
+  z-index: 0;
+}
+
+/* Each timeline item sits in one of two columns */
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px 30px;
+  box-sizing: border-box;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+
+/* Card styles (previously section > div) */
+.timeline .card {
+  position: relative;
+  width: 280px;
+  height: 350px;
+  background-color: #003d82;
+  border-radius: 8px;
+  border: 4px solid grey;
+  padding: 30px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+
+/* Push cards toward the center line so the rectangle touches it */
+.timeline-item.left .card {
+  margin-left: auto;
+  /* move left-side cards left so their right edge meets the left line */
+  transform: translateX(calc(-1 * var(--card-half)));
+}
+
+.timeline-item.right .card {
+  margin-right: auto;
+  /* move right-side cards right so their left edge meets the right line */
+  transform: translateX(calc(var(--card-half)));
+}
+
+/* Hover effect (preserve the X translation per side) */
+.timeline-item.left .card:hover {
+  transform: translateX(calc(-1 * var(--card-half))) translateY(-10px);
+  box-shadow: 0 15px 40px rgba(120, 4, 214, 0.6);
+}
+
+.timeline-item.right .card:hover {
+  transform: translateX(calc(var(--card-half))) translateY(-10px);
+  box-shadow: 0 15px 40px rgba(120, 4, 214, 0.6);
+}
+
+/* Microchip pins */
+.timeline .card::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 30%;
+  width: 15px;
+  height: 40px;
+  background-color: #888888;
+  border-radius: 2px;
+  box-shadow: 0 50px 0 #888888, 0 100px 0 #888888, 0 150px 0 #888888;
+}
+
+.timeline .card::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 30%;
+  width: 15px;
+  height: 40px;
+  background-color: #888888;
+  border-radius: 2px;
+  box-shadow: 0 50px 0 #888888, 0 100px 0 #888888, 0 150px 0 #888888;
+}
+
+/* Small horizontal connector from card toward the center line */
+.timeline-item.left .card::after {
+  content: '';
+  position: absolute;
+  right: -48px;
+  top: 50%;
+  width: 48px;
+  height: 8px;
+  background: linear-gradient(90deg, #66ff8a, #00c853);
+  transform: translateY(-50%);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.timeline-item.right .card::before {
+  content: '';
+  position: absolute;
+  left: -48px;
+  top: 50%;
+  width: 48px;
+  height: 8px;
+  background: linear-gradient(90deg, #66ff8a, #00c853);
+  transform: translateY(-50%);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+/* Card headings */
+.timeline .card h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #00d4ff;
+}
+
+.timeline .card h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.timeline .card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+/* Responsive: adapt timeline for smaller screens using flexbox-friendly layout */
+@media (max-width: 900px) {
+  .timeline {
+    padding: 24px 12px;
+  }
+
+  /* Stack items vertically; give space between them */
+  .timeline-item {
+    width: 100%;
+    padding: 12px 20px 24px 84px;
+    margin-bottom: 24px;
+  }
+
+  /* Center line moves left for mobile and becomes thinner */
+  .timeline::before {
+    left: 48px;
+    width: 6px;
+    transform: translateX(-50%);
+  }
+  /* hide the right-side line on mobile */
+  .timeline::after {
+    display: none;
+
+  /* All items align left on mobile */
+  .timeline-item.left,
+  .timeline-item.right {
+    left: 0;
+    text-align: left;
+  }
+
+  /* Make cards grow responsively and remove fixed height */
+  .timeline .card {
+    width: calc(100% - 110px);
+    max-width: none;
+    height: auto;
+    padding: 20px;
+    /* On mobile, cards should sit flush with the center line — nudge left */
+    margin-left: calc(-1 * (var(--line-width) / 2));
+    transform: none; /* remove desktop X-translation */
+  }
+
+  /* Hide the horizontal connector bars used on wide screens */
+  .timeline-item.left .card::after,
+  .timeline-item.right .card::before {
+    display: none;
+  }
+
+  /* Add a small circular connector dot next to each item on mobile */
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 48px;
+    top: 32px;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 30% 30%, #b9ffcc, #00c853);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 200, 83, 0.22);
+    z-index: 2;
+  }
+
+  /* Slightly reduce microchip pin sizes on small screens */
+  .timeline .card::before,
+  .timeline .card::after {
+    width: 10px;
+    height: 28px;
+  }
+}
+
+/* Very small screens: further tighten spacing */
+@media (max-width: 420px) {
+  .timeline::before { left: 40px; }
+  .timeline-item { padding-left: 72px; }
+  .timeline-item::before { left: 40px; }
+  .timeline .card { padding: 16px; }
+}
+
+/* Footer message */
+body > p {
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  margin-top: 40px;
 }
