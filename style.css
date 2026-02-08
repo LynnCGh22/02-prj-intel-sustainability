@@ -142,6 +142,17 @@ header p {
   z-index: 1;
 }
 
+/* Hide descriptor text by default */
+.timeline .card p {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show descriptor text on hover */
+.timeline .card:hover p {
+  opacity: 1;
+}
+
 /* Hover effect */
 .timeline .card:hover {
   transform: translateY(-10px);
