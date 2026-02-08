@@ -24,8 +24,32 @@ body {
   font-size: 16px;
   font-weight: 400;
   overflow-x: auto;
-  background: linear-gradient(#7804d6, #1629da);
+  background: 
+    radial-gradient(1px 1px at 20% 30%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 60% 70%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 50% 50%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 80% 10%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 10% 90%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 40% 80%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 90% 60%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 30% 30%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 70% 40%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 15% 60%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 85% 75%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 45% 15%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 75% 85%, white, rgba(255,255,255,0)),
+    radial-gradient(1px 1px at 25% 70%, white, rgba(255,255,255,0)),
+    linear-gradient(135deg, #1a0080 0%, #4a148c 25%, #1a237e 50%, #0d47a1 75%, #1a0080 100%);
+  background-attachment: fixed;
+  background-size: 200% 200%;
+  animation: starTwinkle 4s ease-in-out infinite;
   padding: 20px;
+}
+
+/* Twinkling animation for stars */
+@keyframes starTwinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 /* HEADER */
@@ -44,71 +68,61 @@ header img {
 header h1 {
   font-size: 48px;
   margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
 }
 
 header p {
   font-size: 18px;
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 /* TIMELINE SECTION */
 .timeline {
-  --line-width: 8px;
-  --card-half: 140px; /* half of card width (280/2) */
-  --connector-length: 48px;
+  --line-width: 6px;
   position: relative;
-  max-width: 1000px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
 }
 
-/* Left vertical line */
+/* Central vertical line */
 .timeline::before {
   content: '';
   position: absolute;
-  left: calc(50% - var(--card-half));
+  left: 50%;
   top: 0;
   bottom: 0;
   width: var(--line-width);
   transform: translateX(-50%);
   background: linear-gradient(180deg, #66ff8a, #00c853);
-  border-radius: 6px;
-  box-shadow: 0 0 20px rgba(0, 200, 83, 0.18);
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
   z-index: 0;
 }
 
-/* Right vertical line */
-.timeline::after {
-  content: '';
-  position: absolute;
-  left: calc(50% + var(--card-half));
-  top: 0;
-  bottom: 0;
-  width: var(--line-width);
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #66ff8a, #00c853);
-  border-radius: 6px;
-  box-shadow: 0 0 20px rgba(0, 200, 83, 0.18);
-  z-index: 0;
-}
-
-/* Each timeline item sits in one of two columns */
+/* Timeline items stack vertically in a single column */
 .timeline-item {
   position: relative;
-  width: 50%;
-  padding: 20px 30px;
-  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
 }
 
-.timeline-item.left {
-  left: 0;
-  text-align: right;
-}
-
+.timeline-item.left,
 .timeline-item.right {
-  left: 50%;
-  text-align: left;
+  left: auto;
+  text-align: center;
 }
 
 /* Card styles (previously section > div) */
@@ -129,28 +143,67 @@ header p {
   z-index: 1;
 }
 
-/* Push cards toward the center line so the rectangle touches it */
-.timeline-item.left .card {
-  margin-left: auto;
-  /* move left-side cards left so their right edge meets the left line */
-  transform: translateX(calc(-1 * var(--card-half)));
-}
-
-.timeline-item.right .card {
-  margin-right: auto;
-  /* move right-side cards right so their left edge meets the right line */
-  transform: translateX(calc(var(--card-half)));
-}
-
-/* Hover effect (preserve the X translation per side) */
-.timeline-item.left .card:hover {
-  transform: translateX(calc(-1 * var(--card-half))) translateY(-10px);
+/* Hover effect */
+.timeline .card:hover {
+  transform: translateY(-10px);
   box-shadow: 0 15px 40px rgba(120, 4, 214, 0.6);
 }
 
-.timeline-item.right .card:hover {
-  transform: translateX(calc(var(--card-half))) translateY(-10px);
-  box-shadow: 0 15px 40px rgba(120, 4, 214, 0.6);
+/* Green dot connector at top of card */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #b9ffcc, #00c853);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(0, 200, 83, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  z-index: 2;
+}
+
+/* First item has no top dot */
+.timeline-item:first-child::before {
+  display: none;
+}
+
+/* Diagonal connector lines between cards with alternating colors */
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 70px;
+  bottom: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.8;
+  z-index: 1;
+}
+
+/* Hide connector on last item */
+.timeline-item:last-child::after {
+  display: none;
+}
+
+/* Diagonal connectors - green (items 2, 5, 8) */
+.timeline-item:nth-child(3n+2)::after {
+  background: #66ff8a;
+  box-shadow: 0 0 12px rgba(102, 255, 138, 0.6);
+}
+
+/* Diagonal connectors - blue (items 3, 6, 9) */
+.timeline-item:nth-child(3n+3)::after {
+  background: #00d4ff;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
+}
+
+/* Diagonal connectors - purple (items 4, 7) */
+.timeline-item:nth-child(3n+4)::after {
+  background: #a855f7;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
 }
 
 /* Microchip pins */
@@ -178,33 +231,6 @@ header p {
   box-shadow: 0 50px 0 #888888, 0 100px 0 #888888, 0 150px 0 #888888;
 }
 
-/* Small horizontal connector from card toward the center line */
-.timeline-item.left .card::after {
-  content: '';
-  position: absolute;
-  right: -48px;
-  top: 50%;
-  width: 48px;
-  height: 8px;
-  background: linear-gradient(90deg, #66ff8a, #00c853);
-  transform: translateY(-50%);
-  border-radius: 4px;
-  z-index: 1;
-}
-
-.timeline-item.right .card::before {
-  content: '';
-  position: absolute;
-  left: -48px;
-  top: 50%;
-  width: 48px;
-  height: 8px;
-  background: linear-gradient(90deg, #66ff8a, #00c853);
-  transform: translateY(-50%);
-  border-radius: 4px;
-  z-index: 1;
-}
-
 /* Card headings */
 .timeline .card h2 {
   font-size: 32px;
@@ -225,81 +251,48 @@ header p {
   color: #e0e0e0;
 }
 
-/* Responsive: adapt timeline for smaller screens using flexbox-friendly layout */
+/* Responsive: adapt timeline for smaller screens */
 @media (max-width: 900px) {
   .timeline {
-    padding: 24px 12px;
+    padding: 20px 12px;
+    gap: 70px;
   }
-
-  /* Stack items vertically; give space between them */
-  .timeline-item {
-    width: 100%;
-    padding: 12px 20px 24px 84px;
-    margin-bottom: 24px;
-  }
-
-  /* Center line moves left for mobile and becomes thinner */
-  .timeline::before {
-    left: 48px;
-    width: 6px;
-    transform: translateX(-50%);
-  }
-  /* hide the right-side line on mobile */
-  .timeline::after {
-    display: none;
-
-  /* All items align left on mobile */
-  .timeline-item.left,
-  .timeline-item.right {
-    left: 0;
-    text-align: left;
-  }
-
-  /* Make cards grow responsively and remove fixed height */
+  
   .timeline .card {
-    width: calc(100% - 110px);
-    max-width: none;
+    width: 100%;
+    max-width: 280px;
     height: auto;
     padding: 20px;
-    /* On mobile, cards should sit flush with the center line — nudge left */
-    margin-left: calc(-1 * (var(--line-width) / 2));
-    transform: none; /* remove desktop X-translation */
   }
-
-  /* Hide the horizontal connector bars used on wide screens */
-  .timeline-item.left .card::after,
-  .timeline-item.right .card::before {
-    display: none;
-  }
-
-  /* Add a small circular connector dot next to each item on mobile */
+  
   .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 48px;
-    top: 32px;
-    width: 14px;
-    height: 14px;
-    background: radial-gradient(circle at 30% 30%, #b9ffcc, #00c853);
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(0, 200, 83, 0.22);
-    z-index: 2;
-  }
-
-  /* Slightly reduce microchip pin sizes on small screens */
-  .timeline .card::before,
-  .timeline .card::after {
-    width: 10px;
-    height: 28px;
+    width: 12px;
+    height: 12px;
+    top: -20px;
   }
 }
 
-/* Very small screens: further tighten spacing */
+/* Very small screens */
 @media (max-width: 420px) {
-  .timeline::before { left: 40px; }
-  .timeline-item { padding-left: 72px; }
-  .timeline-item::before { left: 40px; }
-  .timeline .card { padding: 16px; }
+  .timeline {
+    padding: 16px 10px;
+    gap: 24px;
+  }
+  
+  .timeline .card {
+    width: 100%;
+    max-width: 260px;
+    padding: 16px;
+    font-size: 14px;
+  }
+  
+  .timeline .card h2 {
+    font-size: 28px;
+  }
+  
+  .timeline .card h3 {
+    font-size: 16px;
+  }
 }
 
 /* Footer message */
